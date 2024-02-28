@@ -1,0 +1,27 @@
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+# Simulated database to store posts
+posts = []
+
+# Route to handle posting a message
+@app.route('/post', methods=['POST'])
+def post_message():
+    data = request.json
+    message = data.get('message')
+
+    if message:
+        # Add the message to the simulated database
+        posts.append(message)
+        return jsonify({'success': True, 'message': 'Message posted successfully'})
+    else:
+        return jsonify({'success': False, 'message': 'Message is required'})
+
+# Route to retrieve all posts
+@app.route('/posts', methods=['GET'])
+def get_posts():
+    return jsonify(posts)
+
+if __name__ == '__main__':
+    app.run(debug=True)
